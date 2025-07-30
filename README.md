@@ -6,19 +6,22 @@ Este documento define os padrões utilizados neste repositório para:
 - **Commits**
 - **Tags e Versionamento**
 
+## Grupos 
+### Criar subgrupo para cada projeto
+
 ## Nome de Projetos
 
 - **kebab-case**: `meu-projeto-web`, `sistema-vendas`, `api-usuarios`
-- **snake_case**: `meu_projeto_web`, `sistema_vendas`, `api_usuarios`
-- **camelCase**: `meuProjetoWeb`, `sistemaVendas`, `apiUsuarios`
-- **PascalCase**: `MeuProjetoWeb`, `SistemaVendas`, `ApiUsuarios`
-
+  
 ## Padrões por Tipo de Projeto
 
 **Aplicações Web:**
 - `app-ecommerce-front-end`
 
-- **Aplicações BackEnd:**
+**Mobile:**
+- `app-mobile`, `flutter-app`, `react-native-app`
+  
+**Aplicações BackEnd:**
 - `app-ecommerce-back-end`
 
 **APIs e Serviços:**
@@ -29,9 +32,6 @@ Este documento define os padrões utilizados neste repositório para:
 
 **Scripts e Ferramentas:**
 - `automation-scripts`
-
-**Mobile:**
-- `app-mobile-ios`, `flutter-app`, `react-native-app`
 
 ## Estrutura de Branches Padrão
 
