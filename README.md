@@ -1,5 +1,6 @@
 # Padrões de Projeto Git
 Este documento define os padrões utilizados neste repositório para:
+- **Nome de Projetos**
 - **Estrutura de branches**
 - **Nomes de branchs**
 - **Commits**
@@ -202,9 +203,41 @@ git push origin v1.1.1
 ### Changelog
 > - Gerar changelog automaticamente baseado nos commits convencionais
 
-## Fontes
+
+## Nome de Projetos
+
+- **kebab-case**: `meu-projeto-web`, `sistema-vendas`, `api-usuarios`
+- **snake_case**: `meu_projeto_web`, `sistema_vendas`, `api_usuarios`
+- **camelCase**: `meuProjetoWeb`, `sistemaVendas`, `apiUsuarios`
+
+## Padrões por Tipo de Projeto
+
+**Aplicações Web:**
+- `app-ecommerce-front-end`
+
+- **Aplicações BackEnd:**
+- `app-ecommerce-back-end`
+
+**APIs e Serviços:**
+- `api-auth`
+
+**Bibliotecas e Frameworks:**
+- `lib-nome-biblioteca`
+
+**Scripts e Ferramentas:**
+- `automation-scripts`
+
+**Mobile:**
+- `app-mobile-ios`, `flutter-app`, `react-native-app`
+
+
+
+
+- ## Fontes
 - https://git-scm.com/book/pt-br/v2/Branches-no-Git-O-b%C3%A1sico-de-Ramifica%C3%A7%C3%A3o-Branch-e-Mesclagem-Merge
 - https://www.conventionalcommits.org/en/v1.0.0/
 - https://github.com/iuricode/padroes-de-commits
 - https://git-scm.com/book/en/v2/Git-Basics-Tagging
 - https://semver.org/
+
+
