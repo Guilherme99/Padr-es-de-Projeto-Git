@@ -3,30 +3,35 @@ Este documento define os padrões utilizados neste repositório para:
 - **Estrutura de branches**
 - **Nomes de branchs**
 - **Commits**
-- **Merge requests**
+- **Tags e Versionamento**
 
 ## Estrutura de Branches Padrão
 
-Este repositório utiliza três branches principais que devem sempre existir:
+Este repositório utiliza a seguinte estrutura hierárquica de branches:
+
+### Estrutura Visual:
+```
+main (production)
+├── hotfix/critical-fix → main
+├── release/v1.0.0 → main
+│   └── develop
+│       ├── feature branchs
+```
 
 ### Branches Principais:
 
-| Branch       | Descrição                                                   | Uso                                           |
-|-------------|-------------------------------------------------------------|-----------------------------------------------|
-| `production` | Branch principal contendo código estável em produção       | Deploy automático para ambiente de produção  |
-| `staging`    | Branch para testes pré-produção e validação final          | Deploy automático para ambiente de staging   |
-| `develop`    | Branch de integração para desenvolvimento contínuo         | Ambiente de desenvolvimento e testes internos|
+| Branch    | Descrição                                                   | Uso                                           |
+|-----------|-------------------------------------------------------------|-----------------------------------------------|
+| `main`    | Branch principal contendo código estável em produção        | Deploy automático para ambiente de produção   |
+| `develop` | Branch de integração para desenvolvimento contínuo          | Ambiente de desenvolvimento e testes internos |
+| `release` | Branch para preparação de versões e testes pré-produção     | Estabilização e validação final               |
+| `hotfix`  | Branch para correções críticas direto em produção           | Correções emergenciais                        |
 
 ### Fluxo de Trabalho:
 ```
-feature branches → develop → staging → production
+feature branches → develop → release → main
+hotfix branches → main (direto)
 ```
-
-**Regras importantes:**
-- **Nunca** faça commit diretamente nas branches principais
-- Todas as mudanças devem passar por **Pull/Merge Requests**
-- Somente código aprovado e testado deve ser mergeado
-
 ---
 
 ## Padrão de Nomes de Branch
@@ -44,6 +49,7 @@ Use o seguinte formato para criar branches de trabalho:
 | `test`    | Adição ou alteração de testes       | `test/add-login-tests`           | `test/SG-123`              |
 | `docs`    | Adição de documentação              | `docs/add-docs`                  | `docs/SG-123`              |
 | `hotfix`  | Correção urgente em produção        | `hotfix/critical-security-fix`   | `hotfix/SG-456`            |
+| `release` | Preparação de versão                | `release/v1.2.0`                 | `release/v1.2.0`           |
 
 ### Criação de Branches:
 ```bash
@@ -52,9 +58,14 @@ git checkout develop
 git pull origin develop
 git checkout -b feature/nova-funcionalidade
 
-# Branches de hotfix (a partir do production)
-git checkout production
-git pull origin production
+# Branches de release (a partir do develop)
+git checkout develop
+git pull origin develop
+git checkout -b release/v1.2.0
+
+# Branches de hotfix (a partir do main)
+git checkout main
+git pull origin main
 git checkout -b hotfix/correcao-critica
 ```
 
@@ -112,78 +123,88 @@ Link: **[Conventional Commits](https://www.conventionalcommits.org/)**:
 
 ---
 
-## Padrão de Merge Request (MR)
+### Estratégias de Merge por Tipo de Branch:
 
-### Título
-`[TIPO-BRANCH] Descrição breve da alteração`
+| Tipo de Branch              | Estratégia de Merge | Justificativa                                      |
+|-----------------------------|---------------------|----------------------------------------------------|
+| `feature/*` → `develop`     | **Squash commits**  | Histórico mais limpo, um commit por funcionalidade |
+| `bugfix/*` → `develop`      | **Squash commits**  | Histórico mais limpo, um commit por correção       |
+| `release/*` → `main`        | **Merge commits**   | Preservar contexto completo da release             |
+| `develop` → `release/*`     | **Merge commits**   | Preservar contexto das features incluídas          |
+| `hotfix/*` → `main`         | **Fast-forward**    | Para correções simples e diretas                   |
 
-Exemplos:
-- `[FEATURE] Implementação do sistema de login`
-- `[BUGFIX] Correção no processo de autenticação`
-- `[HOTFIX] Correção crítica de segurança`
+# Squash merge
+git merge --squash feature/branch-name
+git commit -m "type(escopo): description"
 
-### Corpo da Descrição
-```markdown
-## O que foi alterado/criado?
-[Descrição detalhada das mudanças]
+# Merge commit (preservar histórico)
+git merge --no-ff branch-name
 
-## Por que essa mudança é necessária?
-[Contexto e justificativa]
-
-## Como testar?
-[Passos para validar as alterações]
-
-## Screenshots (se aplicável)
-[Imagens demonstrando as mudanças visuais]
-
-## Checklist
-- [ ] Código revisado e testado localmente
-- [ ] Testes unitários passando
-- [ ] Documentação atualizada (se necessário)
-- [ ] Pipeline de CI passou
-```
-
-### Fluxo de Aprovação por Branch:
-
-| Branch Destino | Revisores Necessários | Testes Obrigatórios |
-|---------------|-----------------------|---------------------|
-| `develop`     | 1 revisor             | Testes unitários    |
-| `staging`     | 2 revisores           | Testes de integração|
-| `production`  | 2+ revisores + Lead   | Todos os testes     |
-
-### Sobre MR
-Ao visualizar uma solicitação de mesclagem, você verá:
-
-- Uma descrição do pedido
-- Alterações de código e revisões de código em linha
-- Informações sobre pipelines de CI/CD
-- Relatórios de capacidade de fusão
-- Comentários
-- A lista de commits
-
-#### Notas Importantes
-- **Sempre** se autoassociar ao MR criado
-- **Sempre** selecionar um Revisor apropriado para aprovação
-- **Nunca** fazer merge sem aprovação
-- **Aguardar** todos os checks de CI/CD passarem antes do merge
-- Para **hotfixes**: notificar o time imediatamente sobre o merge em produção
+# Fast-forward (linear)
+git merge --ff-only branch-name
 
 ---
 
 ## Tags e Versionamento
 
-### Onde Criar Tags:
-| `production` | Versões estáveis      | `v1.0.0`, `v1.1.0`       |
+### Versionamento Semântico (SemVer)
 
-### Comando para Criar Tags:
+Seguimos o padrão **MAJOR.MINOR.PATCH** conforme [Semantic Versioning](https://semver.org/):
+
+| Componente | Quando Incrementar                  | Exemplos de Mudanças                                            |
+|------------|-------------------------------------|-----------------------------------------------------------------|
+| **MAJOR**  | Mudanças incompatíveis na API       | Remoção de endpoints, mudança de contratos, breaking changes    |
+| **MINOR**  | Novas funcionalidades (compatíveis) | Novos endpoints, novas features, melhorias sem breaking changes |
+| **PATCH**  | Correções de bugs (compatíveis)     | Hotfixes, correções de segurança, pequenos ajustes              |
+
+### Critérios Específicos por Tipo:
+
+#### MAJOR (X.0.0) - Breaking Changes
+- Remoção ou mudança de APIs públicas
+- Alteração de schemas de banco incompatíveis
+- Mudança de comportamento esperado pelos usuários
+- Remoção de funcionalidades existentes
+- Mudança de versões principais de dependências (Ex. Node 16→18, Java 8 -> 11)
+
+#### MINOR (X.Y.0) - New Features
+- Adição de novas funcionalidades
+- Novos endpoints de API
+- Melhorias de performance
+- Novas opções de configuração (com defaults)
+- Deprecação de funcionalidades (com aviso)
+
+#### PATCH (X.Y.Z) - Bug Fixes
+- Correções de bugs
+- Hotfixes de segurança
+- Ajustes de documentação
+- Correções de typos
+
+### Onde Criar Tags:
+
+| Branch      | Tipo de Versão   | Exemplos                                         |
+|-------------|------------------|--------------------------------------------------|
+| `main`      | Versões estáveis | `v1.0.0`, `v1.2.3`, `v2.0.0`                     |
+
+### Comandos para Criar Tags:
+
 ```bash
-# Em produção (versão final)
-git checkout production
-git tag -a v1.0.0 -m "Release 1.0.0 - Nova funcionalidade X"
-git push origin v1.0.0
+# Versão estável (main)
+git checkout main
+git tag -a v1.2.0 -m "Release 1.2.0 - Sistema de notificações"
+git push origin v1.2.0
+
+# Hotfix (main - patch)
+git checkout main
+git tag -a v1.1.1 -m "Hotfix 1.1.1 - Correção crítica de segurança"
+git push origin v1.1.1
 ```
+
+### Changelog
+> - Gerar changelog automaticamente baseado nos commits convencionais
 
 ## Fontes
 - https://git-scm.com/book/pt-br/v2/Branches-no-Git-O-b%C3%A1sico-de-Ramifica%C3%A7%C3%A3o-Branch-e-Mesclagem-Merge
 - https://www.conventionalcommits.org/en/v1.0.0/
 - https://github.com/iuricode/padroes-de-commits
+- https://git-scm.com/book/en/v2/Git-Basics-Tagging
+- https://semver.org/
