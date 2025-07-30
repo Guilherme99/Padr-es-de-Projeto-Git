@@ -6,6 +6,33 @@ Este documento define os padrões utilizados neste repositório para:
 - **Commits**
 - **Tags e Versionamento**
 
+## Nome de Projetos
+
+- **kebab-case**: `meu-projeto-web`, `sistema-vendas`, `api-usuarios`
+- **snake_case**: `meu_projeto_web`, `sistema_vendas`, `api_usuarios`
+- **camelCase**: `meuProjetoWeb`, `sistemaVendas`, `apiUsuarios`
+- **PascalCase**: `MeuProjetoWeb`, `SistemaVendas`, `ApiUsuarios`
+
+## Padrões por Tipo de Projeto
+
+**Aplicações Web:**
+- `app-ecommerce-front-end`
+
+- **Aplicações BackEnd:**
+- `app-ecommerce-back-end`
+
+**APIs e Serviços:**
+- `api-auth`
+
+**Bibliotecas e Frameworks:**
+- `lib-nome-biblioteca`
+
+**Scripts e Ferramentas:**
+- `automation-scripts`
+
+**Mobile:**
+- `app-mobile-ios`, `flutter-app`, `react-native-app`
+
 ## Estrutura de Branches Padrão
 
 Este repositório utiliza a seguinte estrutura hierárquica de branches:
@@ -202,36 +229,6 @@ git push origin v1.1.1
 
 ### Changelog
 > - Gerar changelog automaticamente baseado nos commits convencionais
-
-
-## Nome de Projetos
-
-- **kebab-case**: `meu-projeto-web`, `sistema-vendas`, `api-usuarios`
-- **snake_case**: `meu_projeto_web`, `sistema_vendas`, `api_usuarios`
-- **camelCase**: `meuProjetoWeb`, `sistemaVendas`, `apiUsuarios`
-
-## Padrões por Tipo de Projeto
-
-**Aplicações Web:**
-- `app-ecommerce-front-end`
-
-- **Aplicações BackEnd:**
-- `app-ecommerce-back-end`
-
-**APIs e Serviços:**
-- `api-auth`
-
-**Bibliotecas e Frameworks:**
-- `lib-nome-biblioteca`
-
-**Scripts e Ferramentas:**
-- `automation-scripts`
-
-**Mobile:**
-- `app-mobile-ios`, `flutter-app`, `react-native-app`
-
-
-
 
 - ## Fontes
 - https://git-scm.com/book/pt-br/v2/Branches-no-Git-O-b%C3%A1sico-de-Ramifica%C3%A7%C3%A3o-Branch-e-Mesclagem-Merge
