@@ -1,5 +1,6 @@
 # Padrões de Projeto Git
 Este documento define os padrões utilizados neste repositório para:
+- **Grupo de Projetos**
 - **Nome de Projetos**
 - **Estrutura de branches**
 - **Nomes de branchs**
@@ -10,28 +11,28 @@ Este documento define os padrões utilizados neste repositório para:
 ### Criar subgrupo para cada projeto
 
 ## Nome de Projetos
-
-- **kebab-case**: `meu-projeto-web`, `sistema-vendas`, `api-usuarios`
+Nomenclatura utilizada será:
+- **kebab-case**: `nome-projeto`
   
 ## Padrões por Tipo de Projeto
 
 **Aplicações Web:**
-- `app-ecommerce-front-end`
+- `nome-projeto-front-end`
 
 **Mobile:**
-- `app-mobile`, `flutter-app`, `react-native-app`
+- `nome-projeto-mobile`
   
 **Aplicações BackEnd:**
-- `app-ecommerce-back-end`
+- `nome-projeto-back-end`
 
 **APIs e Serviços:**
-- `api-auth`
+- `api-nome-servico`
 
 **Bibliotecas e Frameworks:**
 - `lib-nome-biblioteca`
 
 **Scripts e Ferramentas:**
-- `automation-scripts`
+- `automation-nome-automacao`
 
 ## Estrutura de Branches Padrão
 
@@ -57,8 +58,12 @@ main (production)
 
 ### Fluxo de Trabalho:
 ```
-feature branches → develop → release → main
-hotfix branches → main (direto)
+(1) feature branches → develop → release → main
+(2) hotfix branches → main (direto)
+
+Onde:
+(1) curso para ciclo de desenvolvimento
+(2) curso para correção emergencial de produção
 ```
 ---
 
@@ -148,6 +153,10 @@ Link: **[Conventional Commits](https://www.conventionalcommits.org/)**:
 | `raw`      | Alterações em arquivos de configuração, dados, parâmetros | `raw(data): update seed data for testing`         |
 | `cleanup`  | Limpeza de código (comentários, trechos obsoletos)        | `cleanup(code): remove commented-out logic`       |
 | `remove`   | Exclusão de arquivos, diretórios ou funcionalidades       | `remove(auth): delete unused auth service`        |
+---
+
+### Linguagem de descrição para commit:
+>- Inglês
 
 ---
 
@@ -165,10 +174,10 @@ Link: **[Conventional Commits](https://www.conventionalcommits.org/)**:
 git merge --squash feature/branch-name
 git commit -m "type(escopo): description"
 
-# Merge commit (preservar histórico)
+# Merge commit 
 git merge --no-ff branch-name
 
-# Fast-forward (linear)
+# Fast-forward
 git merge --ff-only branch-name
 
 ---
@@ -181,7 +190,7 @@ Seguimos o padrão **MAJOR.MINOR.PATCH** conforme [Semantic Versioning](https://
 
 | Componente | Quando Incrementar                  | Exemplos de Mudanças                                            |
 |------------|-------------------------------------|-----------------------------------------------------------------|
-| **MAJOR**  | Mudanças incompatíveis na API       | Remoção de endpoints, mudança de contratos, breaking changes    |
+| **MAJOR**  | Mudanças incompatíveis no APP       | Remoção de endpoints, mudança de contratos, breaking changes    |
 | **MINOR**  | Novas funcionalidades (compatíveis) | Novos endpoints, novas features, melhorias sem breaking changes |
 | **PATCH**  | Correções de bugs (compatíveis)     | Hotfixes, correções de segurança, pequenos ajustes              |
 
@@ -205,7 +214,7 @@ Seguimos o padrão **MAJOR.MINOR.PATCH** conforme [Semantic Versioning](https://
 - Correções de bugs
 - Hotfixes de segurança
 - Ajustes de documentação
-- Correções de typos
+- Correções de types
 
 ### Onde Criar Tags:
 
@@ -229,6 +238,11 @@ git push origin v1.1.1
 
 ### Changelog
 > - Gerar changelog automaticamente baseado nos commits convencionais
+---
+
+### README para projetos
+> - Exemplo de Readme a ser seguido: https://github.com/Guilherme99/git-design-patterns/blob/main/PROJECT_README.md
+---
 
 - ## Fontes
 - https://git-scm.com/book/pt-br/v2/Branches-no-Git-O-b%C3%A1sico-de-Ramifica%C3%A7%C3%A3o-Branch-e-Mesclagem-Merge
@@ -236,5 +250,6 @@ git push origin v1.1.1
 - https://github.com/iuricode/padroes-de-commits
 - https://git-scm.com/book/en/v2/Git-Basics-Tagging
 - https://semver.org/
+---
 
 
